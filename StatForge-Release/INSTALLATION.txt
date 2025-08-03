@@ -1,0 +1,38 @@
+===============================================
+StatForge - Reforging Assistant for MoP Classic
+===============================================
+
+INSTALLATION INSTRUCTIONS:
+
+1. LOCATE YOUR WOW ADDONS FOLDER:
+   - Windows: World of Warcraft\_classic_\Interface\AddOns\
+   - Mac: Applications/World of Warcraft/_classic_/Interface/AddOns/
+
+2. COPY THE ADDON:
+   - Take the "StatForge" folder from this package
+   - Paste it into your AddOns directory
+   - The final path should be: .../AddOns/StatForge/
+
+3. VERIFY INSTALLATION:
+   - Your AddOns folder should contain: StatForge/StatForge.toc
+   - If you see StatForge/StatForge/StatForge.toc, move the inner folder up one level
+
+4. START THE GAME:
+   - Launch World of Warcraft (Mists of Pandaria Classic)
+   - At the character select screen, click "AddOns" 
+   - Make sure "StatForge" is checked/enabled
+   - Log in to your character
+
+5. USE THE ADDON:
+   - Type: /statforge (or /sf) to open the interface
+   - Click "Scan Gear" to analyze your equipment
+   - Follow the reforging recommendations
+
+TROUBLESHOOTING:
+- If addon doesn't appear, check folder name is exactly "StatForge"
+- Try typing /reload after logging in
+- Make sure you're using Mists of Pandaria Classic (not retail)
+
+For full documentation, see README.md
+
+Happy Reforging!
