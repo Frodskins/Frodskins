@@ -1,0 +1,15 @@
+## Interface: 50400
+## Title: StatForge - Reforging Assistant
+## Notes: Analyzes equipped gear and provides reforging recommendations for optimal stats in Mists of Pandaria Classic
+## Author: StatForge Development Team
+## Version: 1.0.0
+## SavedVariables: StatForgeDB
+## DefaultState: enabled
+
+Core\Constants.lua
+Core\Database.lua
+Core\StatCalculator.lua
+Core\GearScanner.lua
+Core\ReforgeEngine.lua
+UI\StatForgeFrame.xml
+StatForge.lua
