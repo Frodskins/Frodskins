@@ -16,6 +16,8 @@ function StatForge.ReforgeEngine:CalculateOptimalReforges()
     local hitNeeded = math.max(0, recommendations.caps.hit - (currentStats[StatForge.Constants.STATS.HIT_RATING] or 0))
     local expertiseNeeded = math.max(0, recommendations.caps.expertise - (currentStats[StatForge.Constants.STATS.EXPERTISE_RATING] or 0))
     
+    print("|cff00ff00StatForge|r: Hit needed: " .. hitNeeded .. ", Expertise needed: " .. expertiseNeeded)
+    
     -- Phase 2: Find reforges to meet caps
     if hitNeeded > 0 or expertiseNeeded > 0 then
         local capReforges = self:FindReforgesForCaps(equippedItems, hitNeeded, expertiseNeeded)
@@ -30,6 +32,8 @@ function StatForge.ReforgeEngine:CalculateOptimalReforges()
         table.insert(reforgeRecommendations, reforge)
     end
     
+    print("|cff00ff00StatForge|r: Generated " .. #reforgeRecommendations .. " reforge recommendations")
+    
     return reforgeRecommendations
 end
 
@@ -43,26 +47,29 @@ function StatForge.ReforgeEngine:FindReforgesForCaps(equippedItems, hitNeeded, e
         StatForge.Constants.STATS.DODGE_RATING,
         StatForge.Constants.STATS.PARRY_RATING,
         StatForge.Constants.STATS.MASTERY_RATING,
-        StatForge.Constants.STATS.CRIT_RATING,
-        StatForge.Constants.STATS.HASTE_RATING
+        StatForge.Constants.STATS.HASTE_RATING,
+        StatForge.Constants.STATS.CRIT_RATING
     }
     
-    for _, slotData in pairs(equippedItems) do
+    for slotID, itemData in pairs(equippedItems) do
         if remainingHitNeeded <= 0 and remainingExpertiseNeeded <= 0 then
             break
         end
         
-        local availableReforges = StatForge.GearScanner:GetAvailableReforges(slotData)
+        local availableReforges = StatForge.GearScanner:GetAvailableReforges(itemData)
         
         -- Try to reforge to hit first if needed
         if remainingHitNeeded > 0 then
             for _, fromStatID in ipairs(reforgeFromPriority) do
                 local reforge = self:FindBestReforgeForStat(availableReforges, fromStatID, StatForge.Constants.STATS.HIT_RATING, remainingHitNeeded)
                 if reforge then
-                    reforge.item = slotData
+                    reforge.item = itemData
+                    reforge.slotID = slotID
                     reforge.priority = "Hit Cap"
+                    reforge.itemName = self:GetItemName(itemData.link)
                     table.insert(reforges, reforge)
                     remainingHitNeeded = remainingHitNeeded - reforge.gainedAmount
+                    print("|cff00ff00StatForge|r: Added hit reforge for " .. reforge.itemName .. " (" .. reforge.gainedAmount .. " hit)")
                     break
                 end
             end
@@ -73,10 +80,13 @@ function StatForge.ReforgeEngine:FindReforgesForCaps(equippedItems, hitNeeded, e
             for _, fromStatID in ipairs(reforgeFromPriority) do
                 local reforge = self:FindBestReforgeForStat(availableReforges, fromStatID, StatForge.Constants.STATS.EXPERTISE_RATING, remainingExpertiseNeeded)
                 if reforge then
-                    reforge.item = slotData
+                    reforge.item = itemData
+                    reforge.slotID = slotID
                     reforge.priority = "Expertise Cap"
+                    reforge.itemName = self:GetItemName(itemData.link)
                     table.insert(reforges, reforge)
                     remainingExpertiseNeeded = remainingExpertiseNeeded - reforge.gainedAmount
+                    print("|cff00ff00StatForge|r: Added expertise reforge for " .. reforge.itemName .. " (" .. reforge.gainedAmount .. " expertise)")
                     break
                 end
             end
@@ -121,29 +131,29 @@ function StatForge.ReforgeEngine:OptimizeSecondaryStats(equippedItems, recommend
         return reforges
     end
     
-    local highestPriorityStat = secondaryPriorities[1]
+    local highestPriorityStat = secondaryPriorities[1] -- Should be Crit
     local lowestPriorityStats = {
         StatForge.Constants.STATS.DODGE_RATING,
-        StatForge.Constants.STATS.PARRY_RATING
+        StatForge.Constants.STATS.PARRY_RATING,
+        StatForge.Constants.STATS.MASTERY_RATING, -- Lowest priority per user request
+        StatForge.Constants.STATS.HASTE_RATING
     }
     
-    -- Add lowest priority secondary stats
-    for i = #secondaryPriorities, 1, -1 do
-        table.insert(lowestPriorityStats, secondaryPriorities[i])
-    end
-    
-    for _, slotData in pairs(equippedItems) do
+    for slotID, itemData in pairs(equippedItems) do
         -- Skip items that already have reforge recommendations
-        if not self:ItemHasExistingReforge(slotData, existingReforges) then
-            local availableReforges = StatForge.GearScanner:GetAvailableReforges(slotData)
+        if not self:ItemHasExistingReforge(itemData, existingReforges) then
+            local availableReforges = StatForge.GearScanner:GetAvailableReforges(itemData)
             
-            -- Try to reforge from lowest priority to highest priority stat
+            -- Try to reforge from lowest priority to highest priority stat (Crit)
             for _, fromStatID in ipairs(lowestPriorityStats) do
                 local reforge = self:FindBestReforgeForStat(availableReforges, fromStatID, highestPriorityStat, math.huge)
                 if reforge then
-                    reforge.item = slotData
+                    reforge.item = itemData
+                    reforge.slotID = slotID
                     reforge.priority = "Stat Optimization"
+                    reforge.itemName = self:GetItemName(itemData.link)
                     table.insert(reforges, reforge)
+                    print("|cff00ff00StatForge|r: Added optimization reforge for " .. reforge.itemName .. " (" .. reforge.fromStatName .. " to " .. reforge.toStatName .. ")")
                     break
                 end
             end
@@ -155,11 +165,24 @@ end
 
 function StatForge.ReforgeEngine:ItemHasExistingReforge(slotData, existingReforges)
     for _, reforge in ipairs(existingReforges) do
-        if reforge.item and reforge.item.slot == slotData.slot then
+        if reforge.slotID and reforge.slotID == slotData.slot then
             return true
         end
     end
     return false
+end
+
+function StatForge.ReforgeEngine:GetItemName(itemLink)
+    if not itemLink then return "Unknown Item" end
+    
+    local itemName = GetItemInfo(itemLink)
+    if itemName then
+        return itemName
+    end
+    
+    -- Fallback: extract name from link
+    local name = string.match(itemLink, "%[(.+)%]")
+    return name or "Unknown Item"
 end
 
 function StatForge.ReforgeEngine:CalculateReforgeValue(currentStats, reforge)
@@ -198,9 +221,9 @@ function StatForge.ReforgeEngine:GetRecommendationSummary(reforges)
     
     for _, reforge in ipairs(reforges) do
         if reforge.toStat == StatForge.Constants.STATS.HIT_RATING then
-            summary.hitGained = summary.hitGained + reforge.gainedAmount
+            summary.hitGained = summary.hitGained + (reforge.gainedAmount or 0)
         elseif reforge.toStat == StatForge.Constants.STATS.EXPERTISE_RATING then
-            summary.expertiseGained = summary.expertiseGained + reforge.gainedAmount
+            summary.expertiseGained = summary.expertiseGained + (reforge.gainedAmount or 0)
         end
         
         -- Estimate cost (varies by item level, using base cost here)

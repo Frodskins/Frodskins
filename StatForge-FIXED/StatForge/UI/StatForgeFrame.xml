@@ -23,11 +23,60 @@
         </Layers>
         
         <Frames>
+            <!-- Character Portrait -->
+            <PlayerModel name="$parentCharacterModel">
+                <Size x="60" y="60"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT" x="20" y="-45"/>
+                </Anchors>
+                <Scripts>
+                    <OnLoad>
+                        self:SetUnit("player")
+                        self:SetPortraitZoom(1)
+                        self:SetPosition(0, 0, 0)
+                        self:SetFacing(0)
+                    </OnLoad>
+                </Scripts>
+            </PlayerModel>
+            
+            <!-- Character Info -->
+            <Frame name="$parentCharacterInfo">
+                <Size x="150" y="60"/>
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parentCharacterModel" relativePoint="RIGHT" x="10" y="0"/>
+                </Anchors>
+                
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <FontString name="$parentNameText" inherits="GameFontNormalLarge">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT" x="0" y="-5"/>
+                            </Anchors>
+                            <Text>Character Name</Text>
+                        </FontString>
+                        
+                        <FontString name="$parentClassText" inherits="GameFontNormal">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeTo="$parentNameText" relativePoint="BOTTOMLEFT" x="0" y="-2"/>
+                            </Anchors>
+                            <Text>Class - Spec</Text>
+                        </FontString>
+                        
+                        <FontString name="$parentLevelText" inherits="GameFontNormalSmall">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeTo="$parentClassText" relativePoint="BOTTOMLEFT" x="0" y="-2"/>
+                            </Anchors>
+                            <Text>Level 90</Text>
+                        </FontString>
+                    </Layer>
+                </Layers>
+            </Frame>
+            
             <!-- Current Stats Panel -->
             <Frame name="$parentCurrentStats">
                 <Size x="440" y="140"/>
                 <Anchors>
-                    <Anchor point="TOP" relativeTo="$parent" relativePoint="TOP" x="0" y="-45"/>
+                    <Anchor point="TOP" relativeTo="$parent" relativePoint="TOP" x="0" y="-115"/>
                 </Anchors>
                 
                 <Layers>
@@ -118,7 +167,7 @@
                             <Anchors>
                                 <Anchor point="TOPLEFT" relativeTo="$parentExpertiseCapText" relativePoint="BOTTOMLEFT" x="0" y="-5"/>
                             </Anchors>
-                            <Text>Priority: Hit > Expertise > Secondary Stats</Text>
+                            <Text>Priority: Hit > Expertise > Crit > Haste > Mastery</Text>
                         </FontString>
                     </Layer>
                 </Layers>
@@ -180,10 +229,10 @@
                 <Anchors>
                     <Anchor point="BOTTOMLEFT" relativeTo="$parent" relativePoint="BOTTOMLEFT" x="20" y="15"/>
                 </Anchors>
-                <ButtonText>
-                    <Text>Scan Gear</Text>
-                </ButtonText>
                 <Scripts>
+                    <OnLoad>
+                        self:SetText("Scan Gear")
+                    </OnLoad>
                     <OnClick>
                         StatForge:ScanAndAnalyze()
                     </OnClick>
@@ -195,10 +244,10 @@
                 <Anchors>
                     <Anchor point="LEFT" relativeTo="$parentScanButton" relativePoint="RIGHT" x="10" y="0"/>
                 </Anchors>
-                <ButtonText>
-                    <Text>Refresh</Text>
-                </ButtonText>
                 <Scripts>
+                    <OnLoad>
+                        self:SetText("Refresh")
+                    </OnLoad>
                     <OnClick>
                         StatForge:RefreshDisplay()
                     </OnClick>
@@ -210,10 +259,10 @@
                 <Anchors>
                     <Anchor point="BOTTOMRIGHT" relativeTo="$parent" relativePoint="BOTTOMRIGHT" x="-20" y="15"/>
                 </Anchors>
-                <ButtonText>
-                    <Text>Settings</Text>
-                </ButtonText>
                 <Scripts>
+                    <OnLoad>
+                        self:SetText("Settings")
+                    </OnLoad>
                     <OnClick>
                         StatForge:OpenSettings()
                     </OnClick>

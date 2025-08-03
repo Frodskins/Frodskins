@@ -76,8 +76,45 @@ function StatForge:InitializeUI()
     StatForgeFrame:SetScript("OnDragStart", function(self) self:StartMoving() end)
     StatForgeFrame:SetScript("OnDragStop", function(self) self:StopMovingOrSizing() end)
     
+    -- Initialize character portrait and info
+    self:UpdateCharacterInfo()
+    
     -- Initialize text elements with default values
     self:SetDefaultText()
+end
+
+function StatForge:UpdateCharacterInfo()
+    -- Update character portrait
+    if StatForgeFrameCharacterModel then
+        StatForgeFrameCharacterModel:SetUnit("player")
+        StatForgeFrameCharacterModel:SetPortraitZoom(1)
+    end
+    
+    -- Update character name
+    if StatForgeFrameCharacterInfoNameText then
+        local playerName = UnitName("player")
+        StatForgeFrameCharacterInfoNameText:SetText(playerName or "Unknown")
+    end
+    
+    -- Update class and spec
+    if StatForgeFrameCharacterInfoClassText then
+        local playerClass, playerClassLocalized = UnitClass("player")
+        local specID = GetSpecialization()
+        local specName = "Unknown"
+        
+        if specID then
+            local _, name = GetSpecializationInfo(specID)
+            specName = name or "Unknown"
+        end
+        
+        StatForgeFrameCharacterInfoClassText:SetText((playerClassLocalized or "Unknown") .. " - " .. specName)
+    end
+    
+    -- Update level
+    if StatForgeFrameCharacterInfoLevelText then
+        local level = UnitLevel("player")
+        StatForgeFrameCharacterInfoLevelText:SetText("Level " .. (level or "?"))
+    end
 end
 
 function StatForge:SetDefaultText()
@@ -128,6 +165,7 @@ end
 
 function StatForge:OnSpecializationChanged()
     if StatForgeFrame and StatForgeFrame:IsVisible() then
+        self:UpdateCharacterInfo()
         self:RefreshDisplay()
     end
 end
@@ -261,6 +299,7 @@ function StatForge:RefreshDisplay()
         return
     end
     
+    self:UpdateCharacterInfo()
     self:UpdateCurrentStatsDisplay()
     self:UpdateRecommendationsDisplay()
     self:UpdateReforgeListDisplay()
@@ -355,7 +394,7 @@ function StatForge:UpdateReforgeListDisplay()
         local noReforgeText = contentFrame.noReforgeText
         if not noReforgeText then
             noReforgeText = contentFrame:CreateFontString("NoReforgeText", "ARTWORK", "GameFontNormal")
-            noReforgeText:SetPoint("TOP", contentFrame, "TOP", 0, -10)
+            noReforgeText:SetPoint("TOP", contentFrame, "TOP", 0, -40)
             contentFrame.noReforgeText = noReforgeText
         end
         noReforgeText:SetText("No reforges recommended. Your stats are optimized!")
@@ -370,18 +409,18 @@ function StatForge:UpdateReforgeListDisplay()
     end
     
     -- Create reforge entries
-    local yOffset = -30 -- Start below the title
+    local yOffset = -40 -- Start below the title
     for i, reforge in ipairs(currentReforges) do
         local reforgeFrame = self:CreateReforgeEntry(contentFrame, reforge, i)
         if reforgeFrame then
             reforgeFrame:SetPoint("TOPLEFT", contentFrame, "TOPLEFT", 10, yOffset)
             reforgeFrame:Show()
-            yOffset = yOffset - 30
+            yOffset = yOffset - 40
         end
     end
     
     -- Update scroll frame content height
-    contentFrame:SetHeight(math.max(200, #currentReforges * 30 + 50))
+    contentFrame:SetHeight(math.max(200, #currentReforges * 40 + 60))
 end
 
 function StatForge:CreateReforgeEntry(parent, reforge, index)
@@ -390,7 +429,7 @@ function StatForge:CreateReforgeEntry(parent, reforge, index)
     
     if not frame then
         frame = CreateFrame("Frame", frameName, parent)
-        frame:SetSize(380, 25)
+        frame:SetSize(380, 35)
         
         -- Item name
         local itemText = frame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
@@ -408,15 +447,17 @@ function StatForge:CreateReforgeEntry(parent, reforge, index)
         local priorityText = frame:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
         priorityText:SetPoint("TOPRIGHT", frame, "TOPRIGHT", 0, 0)
         frame.priorityText = priorityText
+        
+        -- Additional info
+        local infoText = frame:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
+        infoText:SetPoint("TOPLEFT", reforgeText, "BOTTOMLEFT", 0, -2)
+        infoText:SetTextColor(0.6, 0.6, 1)
+        frame.infoText = infoText
     end
     
     -- Update content
-    if reforge.item and reforge.item.link then
-        local itemName = GetItemInfo(reforge.item.link) or "Unknown Item"
-        frame.itemText:SetText(itemName)
-    else
-        frame.itemText:SetText("Equipment Slot " .. (reforge.item and reforge.item.slot or "Unknown"))
-    end
+    local itemName = reforge.itemName or "Unknown Item"
+    frame.itemText:SetText(itemName)
     
     local reforgeDesc = string.format("Reforge %d %s → %d %s", 
         reforge.amount or 0,
@@ -425,6 +466,10 @@ function StatForge:CreateReforgeEntry(parent, reforge, index)
         reforge.toStatName and reforge.toStatName:gsub(" Rating", "") or "Unknown"
     )
     frame.reforgeText:SetText(reforgeDesc)
+    
+    -- Additional info about the reforge
+    local slotName = StatForge.Constants.EQUIPMENT_SLOTS[reforge.slotID] or "Unknown Slot"
+    frame.infoText:SetText("Equipment Slot: " .. slotName:gsub("Slot", ""))
     
     -- Color priority text
     local priorityColor = {1, 1, 1} -- White default
