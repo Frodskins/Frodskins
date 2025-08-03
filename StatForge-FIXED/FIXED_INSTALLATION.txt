@@ -1,0 +1,29 @@
+===============================================
+StatForge - FIXED VERSION for MoP Classic
+===============================================
+
+FIXES APPLIED:
+- Fixed transparent UI elements
+- Fixed missing button text
+- Fixed stat detection and calculation
+- Fixed event handling and initialization
+- Fixed UI element references
+
+INSTALLATION:
+1. Copy the "StatForge" folder
+2. Paste into: World of Warcraft\_classic_\Interface\AddOns\
+3. Launch MoP Classic
+4. Type: /statforge or /sf
+
+USAGE:
+- /sf = Open addon window
+- Click "Scan Gear" to analyze equipment
+- Visit reforge NPC and follow recommendations
+
+The addon should now display properly with:
+✓ Visible button text
+✓ Current stat values
+✓ Reforge recommendations
+✓ Working UI elements
+
+If issues persist, try /reload after installation.

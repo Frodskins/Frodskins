@@ -1,0 +1,25 @@
+======================================================
+ StatForge - WoW MoP Classic Reforging Assistant
+======================================================
+
+SIMPLE INSTALLATION:
+
+1. Copy the "StatForge" folder from this download
+2. Paste it into your WoW AddOns directory:
+   
+   Windows: World of Warcraft\_classic_\Interface\AddOns\
+   Mac: Applications/World of Warcraft/_classic_/Interface/AddOns/
+
+3. Your final path should be:
+   AddOns/StatForge/StatForge.toc
+
+4. Launch WoW MoP Classic
+5. Type: /statforge
+
+That's it! The addon will scan your gear and show reforge recommendations.
+
+Commands:
+- /statforge or /sf = Open addon window
+- /statforge scan = Manually scan gear
+
+Enjoy optimized stats!

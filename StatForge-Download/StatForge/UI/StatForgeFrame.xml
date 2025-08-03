@@ -1,0 +1,253 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <Frame name="StatForgeFrame" parent="UIParent" frameStrata="MEDIUM" movable="true" enableMouse="true" hidden="true">
+        <Size x="480" y="600"/>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="UIParent" relativePoint="CENTER"/>
+        </Anchors>
+        
+        <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+            <BackgroundInsets left="11" right="12" top="12" bottom="11"/>
+            <TileSize val="32"/>
+            <EdgeSize val="32"/>
+        </Backdrop>
+        
+        <Layers>
+            <Layer level="ARTWORK">
+                <FontString name="$parentTitle" inherits="GameFontNormalLarge">
+                    <Anchors>
+                        <Anchor point="TOP" relativeTo="$parent" relativePoint="TOP" x="0" y="-15"/>
+                    </Anchors>
+                    <Text>StatForge - Reforging Assistant</Text>
+                </FontString>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            <!-- Current Stats Panel -->
+            <Frame name="$parentCurrentStats">
+                <Size x="440" y="140"/>
+                <Anchors>
+                    <Anchor point="TOP" relativeTo="$parent" relativePoint="TOP" x="0" y="-45"/>
+                </Anchors>
+                
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <FontString name="$parentTitle" inherits="GameFontNormalLarge">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT" x="20" y="-10"/>
+                            </Anchors>
+                            <Text>Current Character Stats</Text>
+                        </FontString>
+                        
+                        <FontString name="$parentHitText" inherits="GameFontNormal">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeTo="$parentTitle" relativePoint="BOTTOMLEFT" x="0" y="-10"/>
+                            </Anchors>
+                            <Text>Hit Rating: 0 (0.00%)</Text>
+                        </FontString>
+                        
+                        <FontString name="$parentExpertiseText" inherits="GameFontNormal">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeTo="$parentHitText" relativePoint="BOTTOMLEFT" x="0" y="-5"/>
+                            </Anchors>
+                            <Text>Expertise Rating: 0 (0.00%)</Text>
+                        </FontString>
+                        
+                        <FontString name="$parentCritText" inherits="GameFontNormal">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeTo="$parentExpertiseText" relativePoint="BOTTOMLEFT" x="0" y="-5"/>
+                            </Anchors>
+                            <Text>Crit Rating: 0 (0.00%)</Text>
+                        </FontString>
+                        
+                        <FontString name="$parentHasteText" inherits="GameFontNormal">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeTo="$parentCritText" relativePoint="BOTTOMLEFT" x="0" y="-5"/>
+                            </Anchors>
+                            <Text>Haste Rating: 0 (0.00%)</Text>
+                        </FontString>
+                        
+                        <FontString name="$parentMasteryText" inherits="GameFontNormal">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeTo="$parentHasteText" relativePoint="BOTTOMLEFT" x="0" y="-5"/>
+                            </Anchors>
+                            <Text>Mastery Rating: 0 (0.00%)</Text>
+                        </FontString>
+                    </Layer>
+                </Layers>
+            </Frame>
+            
+            <!-- Recommendations Panel -->
+            <Frame name="$parentRecommendations">
+                <Size x="440" y="100"/>
+                <Anchors>
+                    <Anchor point="TOP" relativeTo="$parentCurrentStats" relativePoint="BOTTOM" x="0" y="-10"/>
+                </Anchors>
+                
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <FontString name="$parentTitle" inherits="GameFontNormalLarge">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT" x="20" y="-10"/>
+                            </Anchors>
+                            <Text>Recommendations for Your Spec</Text>
+                        </FontString>
+                        
+                        <FontString name="$parentSpecText" inherits="GameFontNormal">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeTo="$parentTitle" relativePoint="BOTTOMLEFT" x="0" y="-10"/>
+                            </Anchors>
+                            <Text>Current Spec: Unknown</Text>
+                        </FontString>
+                        
+                        <FontString name="$parentHitCapText" inherits="GameFontNormal">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeTo="$parentSpecText" relativePoint="BOTTOMLEFT" x="0" y="-5"/>
+                            </Anchors>
+                            <Text>Hit Cap: 2550 (7.5%)</Text>
+                        </FontString>
+                        
+                        <FontString name="$parentExpertiseCapText" inherits="GameFontNormal">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeTo="$parentHitCapText" relativePoint="BOTTOMLEFT" x="0" y="-5"/>
+                            </Anchors>
+                            <Text>Expertise Cap: 2550 (7.5%)</Text>
+                        </FontString>
+                        
+                        <FontString name="$parentPriorityText" inherits="GameFontNormal">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeTo="$parentExpertiseCapText" relativePoint="BOTTOMLEFT" x="0" y="-5"/>
+                            </Anchors>
+                            <Text>Priority: Hit > Expertise > Secondary Stats</Text>
+                        </FontString>
+                    </Layer>
+                </Layers>
+            </Frame>
+            
+            <!-- Reforge Recommendations Scroll Frame -->
+            <ScrollFrame name="$parentReforgeScroll" inherits="UIPanelScrollFrameTemplate">
+                <Size x="420" y="200"/>
+                <Anchors>
+                    <Anchor point="TOP" relativeTo="$parentRecommendations" relativePoint="BOTTOM" x="0" y="-10"/>
+                </Anchors>
+                
+                <ScrollChild>
+                    <Frame name="$parentContent">
+                        <Size x="400" y="200"/>
+                        <Layers>
+                            <Layer level="ARTWORK">
+                                <FontString name="$parentTitle" inherits="GameFontNormalLarge">
+                                    <Anchors>
+                                        <Anchor point="TOP" relativeTo="$parent" relativePoint="TOP" x="0" y="-10"/>
+                                    </Anchors>
+                                    <Text>Reforge Recommendations</Text>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+                    </Frame>
+                </ScrollChild>
+            </ScrollFrame>
+            
+            <!-- Summary Panel -->
+            <Frame name="$parentSummary">
+                <Size x="440" y="40"/>
+                <Anchors>
+                    <Anchor point="TOP" relativeTo="$parentReforgeScroll" relativePoint="BOTTOM" x="0" y="-10"/>
+                </Anchors>
+                
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <FontString name="$parentTitle" inherits="GameFontNormalLarge">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT" x="20" y="-5"/>
+                            </Anchors>
+                            <Text>Summary</Text>
+                        </FontString>
+                        
+                        <FontString name="$parentSummaryText" inherits="GameFontNormal">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeTo="$parentTitle" relativePoint="BOTTOMLEFT" x="0" y="-5"/>
+                            </Anchors>
+                            <Text>Click 'Scan Gear' to analyze your equipment</Text>
+                        </FontString>
+                    </Layer>
+                </Layers>
+            </Frame>
+            
+            <!-- Control Buttons -->
+            <Button name="$parentScanButton" inherits="UIPanelButtonTemplate">
+                <Size x="100" y="22"/>
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT" relativeTo="$parent" relativePoint="BOTTOMLEFT" x="20" y="15"/>
+                </Anchors>
+                <ButtonText>
+                    <Text>Scan Gear</Text>
+                </ButtonText>
+                <Scripts>
+                    <OnClick>
+                        StatForge:ScanAndAnalyze()
+                    </OnClick>
+                </Scripts>
+            </Button>
+            
+            <Button name="$parentRefreshButton" inherits="UIPanelButtonTemplate">
+                <Size x="100" y="22"/>
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parentScanButton" relativePoint="RIGHT" x="10" y="0"/>
+                </Anchors>
+                <ButtonText>
+                    <Text>Refresh</Text>
+                </ButtonText>
+                <Scripts>
+                    <OnClick>
+                        StatForge:RefreshDisplay()
+                    </OnClick>
+                </Scripts>
+            </Button>
+            
+            <Button name="$parentSettingsButton" inherits="UIPanelButtonTemplate">
+                <Size x="80" y="22"/>
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT" relativeTo="$parent" relativePoint="BOTTOMRIGHT" x="-20" y="15"/>
+                </Anchors>
+                <ButtonText>
+                    <Text>Settings</Text>
+                </ButtonText>
+                <Scripts>
+                    <OnClick>
+                        StatForge:OpenSettings()
+                    </OnClick>
+                </Scripts>
+            </Button>
+            
+            <Button name="$parentCloseButton" inherits="UIPanelCloseButton">
+                <Anchors>
+                    <Anchor point="TOPRIGHT" relativeTo="$parent" relativePoint="TOPRIGHT" x="-5" y="-5"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():Hide()
+                    </OnClick>
+                </Scripts>
+            </Button>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                self:RegisterForDrag("LeftButton")
+                tinsert(UISpecialFrames, self:GetName())
+            </OnLoad>
+            <OnDragStart>
+                self:StartMoving()
+            </OnDragStart>
+            <OnDragStop>
+                self:StopMovingOrSizing()
+            </OnDragStop>
+            <OnShow>
+                if StatForge and StatForge.InitializeUI then
+                    StatForge:InitializeUI()
+                end
+            </OnShow>
+        </Scripts>
+    </Frame>
+</Ui>
