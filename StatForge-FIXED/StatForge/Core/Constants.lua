@@ -78,12 +78,13 @@ StatForge.Constants.CAPS = {
 }
 
 -- Class and spec specific stat priorities
+-- Priority Order: Hit (7.5%) > Expertise (7.5%) > Critical Hit > Haste > Mastery
 StatForge.Constants.STAT_PRIORITIES = {
     -- Death Knight
     ["DEATHKNIGHT"] = {
         [250] = { -- Blood (Tank)
             primary = {StatForge.Constants.STATS.HIT_RATING, StatForge.Constants.STATS.EXPERTISE_RATING},
-            secondary = {StatForge.Constants.STATS.MASTERY_RATING, StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.CRIT_RATING},
+            secondary = {StatForge.Constants.STATS.CRIT_RATING, StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.MASTERY_RATING},
             caps = {hit = 2550, expertise = 2550}
         },
         [251] = { -- Frost (DPS)
@@ -93,7 +94,7 @@ StatForge.Constants.STAT_PRIORITIES = {
         },
         [252] = { -- Unholy (DPS)
             primary = {StatForge.Constants.STATS.HIT_RATING, StatForge.Constants.STATS.EXPERTISE_RATING},
-            secondary = {StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.MASTERY_RATING, StatForge.Constants.STATS.CRIT_RATING},
+            secondary = {StatForge.Constants.STATS.CRIT_RATING, StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.MASTERY_RATING},
             caps = {hit = 2550, expertise = 2550}
         }
     },
@@ -101,7 +102,7 @@ StatForge.Constants.STAT_PRIORITIES = {
     ["WARRIOR"] = {
         [71] = { -- Arms
             primary = {StatForge.Constants.STATS.HIT_RATING, StatForge.Constants.STATS.EXPERTISE_RATING},
-            secondary = {StatForge.Constants.STATS.CRIT_RATING, StatForge.Constants.STATS.MASTERY_RATING, StatForge.Constants.STATS.HASTE_RATING},
+            secondary = {StatForge.Constants.STATS.CRIT_RATING, StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.MASTERY_RATING},
             caps = {hit = 2550, expertise = 2550}
         },
         [72] = { -- Fury
@@ -111,20 +112,20 @@ StatForge.Constants.STAT_PRIORITIES = {
         },
         [73] = { -- Protection
             primary = {StatForge.Constants.STATS.HIT_RATING, StatForge.Constants.STATS.EXPERTISE_RATING},
-            secondary = {StatForge.Constants.STATS.MASTERY_RATING, StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.CRIT_RATING},
+            secondary = {StatForge.Constants.STATS.CRIT_RATING, StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.MASTERY_RATING},
             caps = {hit = 2550, expertise = 2550}
         }
     },
     -- Paladin
     ["PALADIN"] = {
-        [65] = { -- Holy
-            primary = {StatForge.Constants.STATS.HIT_RATING},
-            secondary = {StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.MASTERY_RATING, StatForge.Constants.STATS.CRIT_RATING},
-            caps = {hit = 2550, expertise = 0}
+        [65] = { -- Holy (Healer - no hit/expertise needed)
+            primary = {},
+            secondary = {StatForge.Constants.STATS.CRIT_RATING, StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.MASTERY_RATING},
+            caps = {hit = 0, expertise = 0}
         },
         [66] = { -- Protection
             primary = {StatForge.Constants.STATS.HIT_RATING, StatForge.Constants.STATS.EXPERTISE_RATING},
-            secondary = {StatForge.Constants.STATS.MASTERY_RATING, StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.CRIT_RATING},
+            secondary = {StatForge.Constants.STATS.CRIT_RATING, StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.MASTERY_RATING},
             caps = {hit = 2550, expertise = 2550}
         },
         [70] = { -- Retribution
@@ -155,87 +156,87 @@ StatForge.Constants.STAT_PRIORITIES = {
     ["ROGUE"] = {
         [259] = { -- Assassination
             primary = {StatForge.Constants.STATS.HIT_RATING, StatForge.Constants.STATS.EXPERTISE_RATING},
-            secondary = {StatForge.Constants.STATS.MASTERY_RATING, StatForge.Constants.STATS.CRIT_RATING, StatForge.Constants.STATS.HASTE_RATING},
+            secondary = {StatForge.Constants.STATS.CRIT_RATING, StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.MASTERY_RATING},
             caps = {hit = 2550, expertise = 2550}
         },
         [260] = { -- Combat
             primary = {StatForge.Constants.STATS.HIT_RATING, StatForge.Constants.STATS.EXPERTISE_RATING},
-            secondary = {StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.MASTERY_RATING, StatForge.Constants.STATS.CRIT_RATING},
+            secondary = {StatForge.Constants.STATS.CRIT_RATING, StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.MASTERY_RATING},
             caps = {hit = 2550, expertise = 2550}
         },
         [261] = { -- Subtlety
             primary = {StatForge.Constants.STATS.HIT_RATING, StatForge.Constants.STATS.EXPERTISE_RATING},
-            secondary = {StatForge.Constants.STATS.MASTERY_RATING, StatForge.Constants.STATS.CRIT_RATING, StatForge.Constants.STATS.HASTE_RATING},
+            secondary = {StatForge.Constants.STATS.CRIT_RATING, StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.MASTERY_RATING},
             caps = {hit = 2550, expertise = 2550}
         }
     },
     -- Priest
     ["PRIEST"] = {
-        [256] = { -- Discipline
+        [256] = { -- Discipline (Healer - spell hit for damage)
             primary = {StatForge.Constants.STATS.HIT_RATING},
-            secondary = {StatForge.Constants.STATS.MASTERY_RATING, StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.CRIT_RATING},
+            secondary = {StatForge.Constants.STATS.CRIT_RATING, StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.MASTERY_RATING},
             caps = {hit = 2550, expertise = 0}
         },
-        [257] = { -- Holy
-            primary = {StatForge.Constants.STATS.HIT_RATING},
-            secondary = {StatForge.Constants.STATS.MASTERY_RATING, StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.CRIT_RATING},
-            caps = {hit = 2550, expertise = 0}
+        [257] = { -- Holy (Healer - no hit needed)
+            primary = {},
+            secondary = {StatForge.Constants.STATS.CRIT_RATING, StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.MASTERY_RATING},
+            caps = {hit = 0, expertise = 0}
         },
-        [258] = { -- Shadow
+        [258] = { -- Shadow (Caster DPS)
             primary = {StatForge.Constants.STATS.HIT_RATING},
-            secondary = {StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.CRIT_RATING, StatForge.Constants.STATS.MASTERY_RATING},
+            secondary = {StatForge.Constants.STATS.CRIT_RATING, StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.MASTERY_RATING},
             caps = {hit = 2550, expertise = 0}
         }
     },
     -- Shaman
     ["SHAMAN"] = {
-        [262] = { -- Elemental
-            primary = {StatForge.Constants.STATS.HIT_RATING},
-            secondary = {StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.MASTERY_RATING, StatForge.Constants.STATS.CRIT_RATING},
-            caps = {hit = 2550, expertise = 0}
-        },
-        [263] = { -- Enhancement
-            primary = {StatForge.Constants.STATS.HIT_RATING, StatForge.Constants.STATS.EXPERTISE_RATING},
-            secondary = {StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.MASTERY_RATING, StatForge.Constants.STATS.CRIT_RATING},
-            caps = {hit = 2550, expertise = 2550}
-        },
-        [264] = { -- Restoration
-            primary = {StatForge.Constants.STATS.HIT_RATING},
-            secondary = {StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.MASTERY_RATING, StatForge.Constants.STATS.CRIT_RATING},
-            caps = {hit = 2550, expertise = 0}
-        }
-    },
-    -- Mage
-    ["MAGE"] = {
-        [62] = { -- Arcane
-            primary = {StatForge.Constants.STATS.HIT_RATING},
-            secondary = {StatForge.Constants.STATS.MASTERY_RATING, StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.CRIT_RATING},
-            caps = {hit = 2550, expertise = 0}
-        },
-        [63] = { -- Fire
+        [262] = { -- Elemental (Caster DPS)
             primary = {StatForge.Constants.STATS.HIT_RATING},
             secondary = {StatForge.Constants.STATS.CRIT_RATING, StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.MASTERY_RATING},
             caps = {hit = 2550, expertise = 0}
         },
-        [64] = { -- Frost
+        [263] = { -- Enhancement (Melee DPS)
+            primary = {StatForge.Constants.STATS.HIT_RATING, StatForge.Constants.STATS.EXPERTISE_RATING},
+            secondary = {StatForge.Constants.STATS.CRIT_RATING, StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.MASTERY_RATING},
+            caps = {hit = 2550, expertise = 2550}
+        },
+        [264] = { -- Restoration (Healer - no hit needed)
+            primary = {},
+            secondary = {StatForge.Constants.STATS.CRIT_RATING, StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.MASTERY_RATING},
+            caps = {hit = 0, expertise = 0}
+        }
+    },
+    -- Mage
+    ["MAGE"] = {
+        [62] = { -- Arcane (Caster DPS)
             primary = {StatForge.Constants.STATS.HIT_RATING},
-            secondary = {StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.MASTERY_RATING, StatForge.Constants.STATS.CRIT_RATING},
+            secondary = {StatForge.Constants.STATS.CRIT_RATING, StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.MASTERY_RATING},
+            caps = {hit = 2550, expertise = 0}
+        },
+        [63] = { -- Fire (Caster DPS)
+            primary = {StatForge.Constants.STATS.HIT_RATING},
+            secondary = {StatForge.Constants.STATS.CRIT_RATING, StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.MASTERY_RATING},
+            caps = {hit = 2550, expertise = 0}
+        },
+        [64] = { -- Frost (Caster DPS)
+            primary = {StatForge.Constants.STATS.HIT_RATING},
+            secondary = {StatForge.Constants.STATS.CRIT_RATING, StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.MASTERY_RATING},
             caps = {hit = 2550, expertise = 0}
         }
     },
     -- Warlock
     ["WARLOCK"] = {
-        [265] = { -- Affliction
+        [265] = { -- Affliction (Caster DPS)
             primary = {StatForge.Constants.STATS.HIT_RATING},
-            secondary = {StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.MASTERY_RATING, StatForge.Constants.STATS.CRIT_RATING},
+            secondary = {StatForge.Constants.STATS.CRIT_RATING, StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.MASTERY_RATING},
             caps = {hit = 2550, expertise = 0}
         },
-        [266] = { -- Demonology
+        [266] = { -- Demonology (Caster DPS)
             primary = {StatForge.Constants.STATS.HIT_RATING},
-            secondary = {StatForge.Constants.STATS.MASTERY_RATING, StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.CRIT_RATING},
+            secondary = {StatForge.Constants.STATS.CRIT_RATING, StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.MASTERY_RATING},
             caps = {hit = 2550, expertise = 0}
         },
-        [267] = { -- Destruction
+        [267] = { -- Destruction (Caster DPS)
             primary = {StatForge.Constants.STATS.HIT_RATING},
             secondary = {StatForge.Constants.STATS.CRIT_RATING, StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.MASTERY_RATING},
             caps = {hit = 2550, expertise = 0}
@@ -243,17 +244,17 @@ StatForge.Constants.STAT_PRIORITIES = {
     },
     -- Monk
     ["MONK"] = {
-        [268] = { -- Brewmaster
+        [268] = { -- Brewmaster (Tank)
             primary = {StatForge.Constants.STATS.HIT_RATING, StatForge.Constants.STATS.EXPERTISE_RATING},
-            secondary = {StatForge.Constants.STATS.MASTERY_RATING, StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.CRIT_RATING},
+            secondary = {StatForge.Constants.STATS.CRIT_RATING, StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.MASTERY_RATING},
             caps = {hit = 2550, expertise = 2550}
         },
-        [270] = { -- Mistweaver
-            primary = {StatForge.Constants.STATS.HIT_RATING},
-            secondary = {StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.MASTERY_RATING, StatForge.Constants.STATS.CRIT_RATING},
-            caps = {hit = 2550, expertise = 0}
+        [270] = { -- Mistweaver (Healer - no hit needed)
+            primary = {},
+            secondary = {StatForge.Constants.STATS.CRIT_RATING, StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.MASTERY_RATING},
+            caps = {hit = 0, expertise = 0}
         },
-        [269] = { -- Windwalker
+        [269] = { -- Windwalker (Melee DPS)
             primary = {StatForge.Constants.STATS.HIT_RATING, StatForge.Constants.STATS.EXPERTISE_RATING},
             secondary = {StatForge.Constants.STATS.CRIT_RATING, StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.MASTERY_RATING},
             caps = {hit = 2550, expertise = 2550}
@@ -261,25 +262,25 @@ StatForge.Constants.STAT_PRIORITIES = {
     },
     -- Druid
     ["DRUID"] = {
-        [102] = { -- Balance
+        [102] = { -- Balance (Caster DPS)
             primary = {StatForge.Constants.STATS.HIT_RATING},
-            secondary = {StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.MASTERY_RATING, StatForge.Constants.STATS.CRIT_RATING},
+            secondary = {StatForge.Constants.STATS.CRIT_RATING, StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.MASTERY_RATING},
             caps = {hit = 2550, expertise = 0}
         },
-        [103] = { -- Feral
+        [103] = { -- Feral (Melee DPS)
             primary = {StatForge.Constants.STATS.HIT_RATING, StatForge.Constants.STATS.EXPERTISE_RATING},
-            secondary = {StatForge.Constants.STATS.CRIT_RATING, StatForge.Constants.STATS.MASTERY_RATING, StatForge.Constants.STATS.HASTE_RATING},
+            secondary = {StatForge.Constants.STATS.CRIT_RATING, StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.MASTERY_RATING},
             caps = {hit = 2550, expertise = 2550}
         },
-        [104] = { -- Guardian
+        [104] = { -- Guardian (Tank)
             primary = {StatForge.Constants.STATS.HIT_RATING, StatForge.Constants.STATS.EXPERTISE_RATING},
-            secondary = {StatForge.Constants.STATS.MASTERY_RATING, StatForge.Constants.STATS.CRIT_RATING, StatForge.Constants.STATS.HASTE_RATING},
+            secondary = {StatForge.Constants.STATS.CRIT_RATING, StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.MASTERY_RATING},
             caps = {hit = 2550, expertise = 2550}
         },
-        [105] = { -- Restoration
-            primary = {StatForge.Constants.STATS.HIT_RATING},
-            secondary = {StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.MASTERY_RATING, StatForge.Constants.STATS.CRIT_RATING},
-            caps = {hit = 2550, expertise = 0}
+        [105] = { -- Restoration (Healer - no hit needed)
+            primary = {},
+            secondary = {StatForge.Constants.STATS.CRIT_RATING, StatForge.Constants.STATS.HASTE_RATING, StatForge.Constants.STATS.MASTERY_RATING},
+            caps = {hit = 0, expertise = 0}
         }
     }
 }

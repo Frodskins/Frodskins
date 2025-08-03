@@ -118,7 +118,7 @@ function StatForge:SetDefaultText()
     end
     
     if StatForgeFrameRecommendationsPriorityText then
-        StatForgeFrameRecommendationsPriorityText:SetText("Priority: Hit > Expertise > Secondary Stats")
+        StatForgeFrameRecommendationsPriorityText:SetText("Priority: Hit > Expertise > Crit > Haste > Mastery")
     end
     
     if StatForgeFrameSummarySummaryText then
@@ -157,12 +157,32 @@ function StatForge:HandleSlashCommand(msg)
         end
     elseif command == "reset" then
         self:ResetSettings()
+    elseif command == "debug" then
+        self:DebugGearScan()
     else
         print("|cff00ff00StatForge|r Commands:")
         print("  /statforge show - Toggle main window")
         print("  /statforge scan - Scan gear and calculate reforges")
         print("  /statforge hide - Hide main window")
+        print("  /statforge debug - Debug gear scanning")
         print("  /statforge reset - Reset all settings")
+    end
+end
+
+function StatForge:DebugGearScan()
+    print("|cff00ff00StatForge|r: Debug - Scanning equipped gear...")
+    
+    local equippedItems = StatForge.GearScanner:ScanEquippedGear()
+    print("|cff00ff00StatForge|r: Found " .. (equippedItems and #equippedItems or 0) .. " items with reforgeable stats")
+    
+    if equippedItems then
+        for slotID, itemData in pairs(equippedItems) do
+            print("  Slot " .. slotID .. ": " .. (itemData.link or "Unknown"))
+            for statID, value in pairs(itemData.stats) do
+                local statName = StatForge.StatCalculator:GetStatName(statID)
+                print("    " .. statName .. ": " .. value)
+            end
+        end
     end
 end
 
@@ -191,9 +211,21 @@ function StatForge:ScanAndAnalyze()
     
     -- Get current stats
     local currentStats = StatForge.StatCalculator:GetCurrentStats()
+    print("|cff00ff00StatForge|r: Current stats retrieved")
+    
     if StatForge.Database then
         StatForge.Database:SaveCurrentStats(currentStats)
     end
+    
+    -- Scan equipped gear for reforging
+    local equippedItems = StatForge.GearScanner:ScanEquippedGear()
+    local itemCount = 0
+    if equippedItems then
+        for _ in pairs(equippedItems) do
+            itemCount = itemCount + 1
+        end
+    end
+    print("|cff00ff00StatForge|r: Found " .. itemCount .. " items with reforgeable stats")
     
     -- Calculate optimal reforges
     local reforges = StatForge.ReforgeEngine:CalculateOptimalReforges()
@@ -211,6 +243,16 @@ function StatForge:ScanAndAnalyze()
     -- Show frame if hidden
     if StatForgeFrame and not StatForgeFrame:IsVisible() then
         StatForgeFrame:Show()
+        self:InitializeUI()
+    end
+    
+    -- If no reforges found, provide helpful message
+    if #reforges == 0 then
+        if itemCount == 0 then
+            print("|cffffff00StatForge|r: No items with reforgeable secondary stats found. Make sure you have gear with Hit, Crit, Haste, Expertise, or Mastery.")
+        else
+            print("|cff00ff00StatForge|r: Your stats are already optimized for your spec!")
+        end
     end
 end
 
@@ -290,11 +332,7 @@ function StatForge:UpdateRecommendationsDisplay()
     
     -- Update priority text
     if StatForgeFrameRecommendationsPriorityText and recommendations.secondary then
-        local priorityString = "Priority: Hit > Expertise"
-        for _, statID in ipairs(recommendations.secondary) do
-            local statName = StatForge.StatCalculator:GetStatName(statID)
-            priorityString = priorityString .. " > " .. statName:gsub(" Rating", "")
-        end
+        local priorityString = "Priority: Hit > Expertise > Crit > Haste > Mastery"
         StatForgeFrameRecommendationsPriorityText:SetText(priorityString)
     end
 end
@@ -332,7 +370,7 @@ function StatForge:UpdateReforgeListDisplay()
     end
     
     -- Create reforge entries
-    local yOffset = -10
+    local yOffset = -30 -- Start below the title
     for i, reforge in ipairs(currentReforges) do
         local reforgeFrame = self:CreateReforgeEntry(contentFrame, reforge, i)
         if reforgeFrame then
@@ -343,7 +381,7 @@ function StatForge:UpdateReforgeListDisplay()
     end
     
     -- Update scroll frame content height
-    contentFrame:SetHeight(math.max(240, #currentReforges * 30 + 20))
+    contentFrame:SetHeight(math.max(200, #currentReforges * 30 + 50))
 end
 
 function StatForge:CreateReforgeEntry(parent, reforge, index)
