@@ -1,0 +1,37 @@
+SUPERHERO IMAGE PLACEMENT GUIDE
+================================
+
+Place your superhero images in this folder with the following specifications:
+
+REQUIRED IMAGES:
+1. spiderman.png    - Spider-Man character image
+2. venom.png        - Venom character image  
+3. green_goblin.png - Green Goblin character image
+
+IMAGE REQUIREMENTS:
+- Format: PNG with transparent background (recommended)
+- Resolution: Minimum 1500x2000px, 4K preferred for best quality
+- Aspect Ratio: Portrait orientation works best (characters are typically taller than wide)
+- File Size: Keep under 50MB each for optimal After Effects performance
+
+CHARACTER POSITIONING TIPS:
+- Spider-Man: Action pose, web-slinging or jumping works well
+- Venom: Menacing pose, symbiote tendrils visible
+- Green Goblin: Flying or hovering pose on glider
+
+LIGHTING CONSIDERATIONS:
+- Consistent lighting direction across all images
+- Dramatic lighting from above/side creates cinematic look
+- Avoid flat lighting - shadows add depth
+
+COLOR MATCHING:
+- Images should have similar contrast levels
+- Avoid overly saturated colors that clash
+- Consider the dark, cinematic background when selecting images
+
+BACKGROUND REMOVAL:
+- Clean transparent backgrounds are essential
+- Use professional tools like Photoshop for best results
+- Check edges for halos or leftover background pixels
+
+Once images are placed here, run the After Effects scripts to automatically position and animate them in your composition.

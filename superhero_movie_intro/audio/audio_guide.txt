@@ -1,0 +1,62 @@
+AUDIO GUIDE FOR SUPERHERO MOVIE INTRO
+====================================
+
+RECOMMENDED AUDIO FILES:
+1. intro_music.wav - Main background music track
+2. impact_sounds.wav - Sound effects for character entrances
+3. whoosh_effects.wav - Movement and transition sounds
+
+AUDIO SPECIFICATIONS:
+- Format: WAV or AIFF (uncompressed) for best quality
+- Sample Rate: 48kHz (industry standard)
+- Bit Depth: 24-bit minimum
+- Duration: 15-20 seconds (to match intro length)
+
+MUSIC STYLE RECOMMENDATIONS:
+
+EPIC ORCHESTRAL:
+- Dramatic strings and brass
+- Building intensity
+- Heroic themes
+- Examples: Hans Zimmer, John Williams style
+
+ELECTRONIC/MODERN:
+- Synth pads and arpeggios
+- Electronic drums
+- Futuristic sounds
+- Examples: Tron Legacy, Marvel movie trailers
+
+HYBRID ORCHESTRAL/ELECTRONIC:
+- Best of both worlds
+- Modern superhero movie feel
+- Dynamic build-ups
+- Perfect for character reveals
+
+SOUND EFFECTS TIMING:
+- 0-2s: Ambient intro, building tension
+- 2s: Title impact sound
+- 5s: Spider-Man entrance whoosh
+- 7s: Venom emergence dark rumble
+- 9s: Green Goblin flight/explosion sounds
+- 11s: Final impact/hit
+- 12s: "Coming Soon" reveal
+
+AUDIO LEVELS:
+- Music: -12dB to -6dB (leaves headroom)
+- Sound Effects: -18dB to -12dB
+- Final Mix: Peak at -3dB maximum
+
+ROYALTY-FREE MUSIC SOURCES:
+- Epidemic Sound
+- AudioJungle
+- Freesound.org (for SFX)
+- YouTube Audio Library
+- Adobe Stock Audio
+
+MIXING TIPS:
+- Use EQ to separate frequency ranges
+- Add reverb for cinematic space
+- Compress for consistent levels
+- Side-chain music to SFX for clarity
+
+Place your audio files in this folder and import them into After Effects to complete your superhero intro!
